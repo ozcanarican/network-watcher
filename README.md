@@ -10,4 +10,12 @@ Create a .env file with the following content:
 - SCRIPT_DOWN=path_for_script
 - SCRIPT_UP=path_for_script
 
-SCRIPT_DOWN will be runned one time when the all ips are down and UP script will be runned when they are back online
+SCRIPT_DOWN will be runned one time when the all ips are down and UP script will be runned when they are back online.
+
+## Run Script
+After editing or creating .env file, you can run prebuilt linux app
+```
+./networkchecker
+```
+
+Or you can build go project for your own OS
