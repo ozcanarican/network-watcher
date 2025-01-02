@@ -23,6 +23,7 @@ func NewHandler(hosts []string, sleep int) *Handler {
 
 func (h *Handler) StartPinging() {
 	result := make([]string, len(h.Hosts))
+	google := true
 	for {
 		isDown := true
 		for index, host := range h.Hosts {
@@ -38,11 +39,21 @@ func (h *Handler) StartPinging() {
 		h.LastPingResult = result
 		h.LastPingTime = time.Now()
 
+		cmd := exec.Command("ping", "google.com", "-c", "1")
+		_, err := cmd.Output()
+		if err != nil {
+			google = false
+		}
+
 		if isDown {
 			if h.LastStatus {
 				h.LastStatus = false
 				log.Println("All ips are down. Following shutdown protocol")
-				h.followProtocol(false)
+				if google {
+					h.followProtocol(false)
+				} else {
+					log.Println("You dont have internet")
+				}
 			}
 		} else {
 			if !h.LastStatus {
